@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
-    "deploy": "git subtree push --prefix dist heroku master"
+    "deploy": "yarnpkg build && git add . && git commit -m 'lol' && git subtree push --prefix dist heroku master"
   },
   "dependencies": {
     "axios": "^0.15.3",

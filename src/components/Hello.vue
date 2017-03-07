@@ -24,7 +24,7 @@ export default {
     }
   },
   created () {
-    this.response = this.fetchData()
+    this.fetchData()
   },
   methods: {
     fetchData() {
@@ -40,11 +40,10 @@ export default {
 
       http.get(endpoint).then(response => {
         console.log('success: ', response)
-        return response
+        this.response = response
       }).catch(error => {
-        console.log('fuk')
         console.log('error: ', error)
-        return response
+        this.response = error
       })
     }
   }
