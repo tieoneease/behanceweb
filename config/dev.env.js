@@ -4,5 +4,4 @@ var prodEnv = require('./prod.env')
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
   API_URL: '"http://localhost:3001/"',
-  DEBUG_MODE: true,
 })
