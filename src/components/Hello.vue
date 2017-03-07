@@ -14,7 +14,7 @@ const api_key = 'TC4iMKLEasvhlXHID8WE4Wg7cLBNHPIH'
 const http = axios.create({
     baseURL: 'https://api.behance.net/v2/',
     timeout: 10000,
-    withCredentials: true,
+    withCredentials: false,
 });
 export default {
   name: 'hello',
