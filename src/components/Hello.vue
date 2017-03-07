@@ -7,14 +7,19 @@
 <script>
 import axios from 'axios'
 const url = 'http://www.behance.net/v2/users/achen041bd2/projects?client_id=TC4iMKLEasvhlXHID8WE4Wg7cLBNHPIH'
-const url2 = 'https://api.behance.net/v2/users/achen041bd2/projects?client_id=TC4iMKLEasvhlXHID8WE4Wg7cLBNHPIH'
+const url2 = 'https://api.behance.net/v2/users/achen041bd2/projects&client_id=TC4iMKLEasvhlXHID8WE4Wg7cLBNHPIH'
 const endpoint = '/users/achen041bd2/projects?client_id=TC4iMKLEasvhlXHID8WE4Wg7cLBNHPIH'
 const api_key = 'TC4iMKLEasvhlXHID8WE4Wg7cLBNHPIH'
 
+import Behance from 'behance-api'
+const Be = new Behance(api_key)
+
 const http = axios.create({
-    baseURL: 'https://api.behance.net/v2/',
-    timeout: 10000,
-    withCredentials: false,
+  timeout: 10000,
+  withCredentials: false,
+  headers: {
+    'Content-Type': 'text/plain'
+  },
 });
 export default {
   name: 'hello',
@@ -38,13 +43,22 @@ export default {
       })
 */
 
-      http.get(endpoint).then(response => {
+Be.projects({q: 'motorcycle'}, function(err, res, data) {
+  if (err) { 
+    throw err;
+  }
+
+  this.response =  data
+})
+      /*
+      http.get(url2).then(response => {
         console.log('success: ', response)
         this.response = response
       }).catch(error => {
         console.log('error: ', error)
         this.response = error
       })
+*/
     }
   }
 }
