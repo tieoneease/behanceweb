@@ -5,25 +5,12 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 
-//import Behance from 'behance-api'
-//const Be = new Behance('TC4iMKLEasvhlXHID8WE4Wg7cLBNHPIH')
+let API_URL = 'http://localhost:3001'
 
-const id = 'achen041bd2'
-const opts = {}
-//Be.projects({q: 'motorcycle'}, function(err, res, data) {
-  //if (err) { 
-    //throw err;
-  //}
-
-  //console.log('what the fuck', res)
-//})
-
-//Be.userProjects(id, opts, function(err, res, data) {
-  //console.log(err)
-      //console.log(data);
-//});
+let http = axios.create({ baseURL: API_URL })
 
 Vue.config.productionTip = false
+Vue.prototype.$http = http;
 
 /* eslint-disable no-new */
 new Vue({
