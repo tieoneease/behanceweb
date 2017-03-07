@@ -20,7 +20,7 @@ export default {
   name: 'hello',
   data () {
     return {
-      response: ''
+      response: 'Nothing loaded'
     }
   },
   created () {
