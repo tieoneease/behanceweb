@@ -2,19 +2,23 @@
   <div class="container">
     <div class="left-panel"></div>
     <div class="right-panel">
+      <fade :duration="2000">
       <div class="column">
         <project-bubble v-for="project in projectsFirstHalf" :project="project" :key="project.id"></project-bubble>
       </div>
+      </fade>
+      <fade>
       <div class="column">
         <project-bubble v-for="project in projectsSecondHalf" :project="project" :key="project.id"></project-bubble>
       </div>
+      </fade>
     </div>
   </div>
 </template>
 
 <script>
-import ProjectBubble from './ProjectBubble.vue'
-import Velocity from 'velocity-animate'
+import ProjectBubble from './ProjectBubble'
+import Fade from './ScrollAnimation'
 export default {
   name: 'hello',
   data () {
@@ -34,7 +38,6 @@ export default {
           const halfLength = Math.ceil(projects.length / 2)
           this.projectsFirstHalf = projects.splice(0,halfLength)
           this.projectsSecondHalf = projects
-          console.log(this.projectsFirstHalf[0])
         })
         .catch(error => {
           console.log(error)
@@ -42,7 +45,8 @@ export default {
     }
   },
   components: {
-    'project-bubble': ProjectBubble
+    'project-bubble': ProjectBubble,
+    'fade': Fade
   }
 }
 </script>
