@@ -14,6 +14,7 @@
 
 <script>
 import ProjectBubble from './ProjectBubble.vue'
+import Velocity from 'velocity-animate'
 export default {
   name: 'hello',
   data () {
