@@ -3,22 +3,17 @@
     <div class="left-panel"></div>
     <div class="right-panel">
       <div class="column">
-        <div v-for="project in projectsFirstHalf">
-          <div v-bind:style="{ backgroundImage: 'url(' + project.covers['404'] + ')'}" class="bubble">
-          </div>
-        </div>
+        <project-bubble v-for="project in projectsFirstHalf" :project="project" :key="project.id"></project-bubble>
       </div>
       <div class="column">
-        <div v-for="project in projectsSecondHalf">
-          <div v-bind:style="{ backgroundImage: 'url(' + project.covers['404'] + ')'}" class="bubble">
-          </div>
-        </div>
+        <project-bubble v-for="project in projectsSecondHalf" :project="project" :key="project.id"></project-bubble>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import ProjectBubble from './ProjectBubble.vue'
 export default {
   name: 'hello',
   data () {
@@ -38,11 +33,15 @@ export default {
           const halfLength = Math.ceil(projects.length / 2)
           this.projectsFirstHalf = projects.splice(0,halfLength)
           this.projectsSecondHalf = projects
+          console.log(this.projectsFirstHalf[0])
         })
         .catch(error => {
           console.log(error)
         })
     }
+  },
+  components: {
+    'project-bubble': ProjectBubble
   }
 }
 </script>
@@ -84,21 +83,4 @@ body {
   flex-grow: 1;
   overflow-y: scroll;
 }
-
-.bubble {
-  border-radius: 50%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  width: 230px;
-  height: 230px;
-  overflow: hidden;
-  box-shadow: -2px 2px 12px 0px rgba(100,100,100,0.71);
-  margin: 15px auto;
-}
-
-.bubble img {
-  height: 100%;
-}
-
 </style>
