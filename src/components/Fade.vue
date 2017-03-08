@@ -1,12 +1,12 @@
 <template>
-<transition name="scroll"
+<transition-group name="fade"
  mode="out-in"
  v-on:before-enter="beforeEnter"
  v-on:enter="enter"
  v-on:before-leave="beforeLeave"
  v-on:leave="leave">
   <slot></slot>
-</transition>
+</transition-group>
 </template>
 
 <script>
@@ -19,22 +19,23 @@ export default {
   },
   methods: {
     beforeEnter (el) {
+      el.style.opacity = 0
     },
     enter (el, done) {
       var vm = this
-      /*
-      Velocity(el, 'scroll',
+      Velocity(el,
+        { opacity: 1 },
         {
-          duration: 2000,
-          offset: '-50%',
-          easing: 'spring',
-          complete: function() { done() }
+          duration: vm.duration ? vm.duration : 500,
+          delay: vm.delay ? vm.delay : 0,
+          easing: [ 0.39, 0.67, 0.04, 0.98 ],
+          complete: function () { done() } 
         }
       )
-*/
-      Velocity(el, { rotateZ: '100deg' }, { loop: 2 })
+      Velocity(el, 'scroll', { duration: 2000, offset: 250, easing: 'spring' })
     },
     beforeLeave (el) {
+      el.style.opacity = 1
     },
     leave (el, done) {
       var vm = this

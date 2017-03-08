@@ -2,13 +2,11 @@
   <div class="container">
     <div class="left-panel"></div>
     <div class="right-panel">
-      <scroll>
-        <div class="column">
-          <fade :duration="2000">
+      <div class="column">
+        <fade :duration="2000">
           <project-bubble v-for="project in projectsFirstHalf" :project="project" :key="project.id"></project-bubble>
-          </fade>
-        </div>
-      </scroll>
+        </fade>
+      </div>
       <div class="column">
         <fade :duration="1500" :delay="400">
           <project-bubble v-for="project in projectsSecondHalf" :project="project" :key="project.id"></project-bubble>
