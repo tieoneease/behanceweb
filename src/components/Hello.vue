@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <div class="left-panel"></div>
-    <div class="middle-panel"></div>
     <div class="right-panel">
       <div class="column">
         <div v-for="project in projectsFirstHalf">
@@ -67,21 +66,17 @@ body {
 
 .left-panel {
   width: 50%;
-  background-color: pink;
 }
 
 .middle-panel {
   width: 0%;
-  background-color: lightblue;
 }
 
 .right-panel {
   width: 50%;
   height: 100vh;
   display: flex;
-  justify-content: space-around;
   overflow: hidden;
-  background-color: peachpuff;
 }
 
 .column {
@@ -105,4 +100,5 @@ body {
 .bubble img {
   height: 100%;
 }
+
 </style>
