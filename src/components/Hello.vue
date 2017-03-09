@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <div class="left-panel"></div>
+    <div class="left-panel">
+      <h1>Ashley Chen</h1>
+      <h2>UI / UX Designer </h2>
+    </div>
     <div class="right-panel">
       <scroll>
         <div class="column">
@@ -57,8 +60,10 @@ export default {
 
 <style>
 
+
 body {
   overflow:hidden;
+  font-family: 'Lato', sans-serif;
 }
 
 ::-webkit-scrollbar { 
@@ -76,9 +81,6 @@ body {
   width: 50%;
 }
 
-.middle-panel {
-  width: 0%;
-}
 
 .right-panel {
   width: 50%;
@@ -90,6 +92,7 @@ body {
 .column {
   height: 100%;
   flex-grow: 1;
+  box-sizing: border-box;
   overflow-y: scroll;
 }
 </style>
