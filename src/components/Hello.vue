@@ -7,30 +7,42 @@
     <div class="right-panel">
       <scroll>
         <div class="column">
-          <fade :duration="2000">
-          <project-bubble v-for="project in projectsFirstHalf" :project="project" :key="project.id"></project-bubble>
-          </fade>
+          <fade-group :duration="2000">
+          <project-bubble v-on:clicked="openModal" v-for="project in projectsFirstHalf" :project="project" :key="project.id"></project-bubble>
+          </fade-group>
         </div>
       </scroll>
       <div class="column">
-        <fade :duration="1500" :delay="400">
-          <project-bubble v-for="project in projectsSecondHalf" :project="project" :key="project.id"></project-bubble>
-        </fade>
+        <fade-group :duration="1500" :delay="400">
+          <project-bubble v-on:clicked="openModal" v-for="project in projectsSecondHalf" :project="project" :key="project.id"></project-bubble>
+        </fade-group>
       </div>
     </div>
+    <fade>
+      <div v-show="modalActive" @click="closeModal" class="modal-mask">
+        <div class="project-modal">
+          <div id="project-content">
+            proj
+          </div>
+        </div>
+      </div>
+    </fade>
   </div>
 </template>
 
 <script>
 import ProjectBubble from './ProjectBubble'
+import FadeGroup from './FadeGroup'
 import Fade from './Fade'
 import Scroll from './ScrollAnimation'
+import Velocity from 'velocity-animate'
 export default {
   name: 'hello',
   data () {
     return {
       projectsFirstHalf: [],
-      projectsSecondHalf: []
+      projectsSecondHalf: [],
+      modalActive: false
     }
   },
   created () {
@@ -48,11 +60,19 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    openModal(event) {
+      this.modalActive = true
+    },
+    closeModal(event) {
+      if (this.modalActive && event.target.className == "modal-mask")
+        this.modalActive = false
     }
   },
   components: {
     'project-bubble': ProjectBubble,
     'fade': Fade,
+    'fade-group': FadeGroup,
     'scroll': Scroll
   }
 }
@@ -60,21 +80,45 @@ export default {
 
 <style>
 
+.modal-mask {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, .5);
+  z-index: 9998;
+}
+
+.project-modal {
+  background-color: #def;
+  opacity: 1;
+  height: 95vh;
+  width: 90vw;
+  margin: 2.5vh auto;
+  border-radius: 8px;
+}
+
+#project-content {
+  max-width: 100%;
+  background-color: blue;
+  overflow: scroll;
+}
+
 
 body {
-  overflow:hidden;
+  margin: 0;
   font-family: 'Lato', sans-serif;
 }
 
-::-webkit-scrollbar { 
-  display: none; 
+::-webkit-scrollbar {
+  display: none;
 }
 
 .container {
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
   display: flex;
+  position: relative;
+  overflow: hidden;
 }
 
 .left-panel {

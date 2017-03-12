@@ -1,10 +1,10 @@
 <template>
-<div class="bubble" v-bind:style="backgroundStyleObject">
-  <div class="project-info">
-    <h1 class="project-name">{{project.name}}</h1>
-    <h2 class="fields">{{fieldsString}}</h2>
-  </div>
+<div class="bubble" @click="clicked" v-bind:style="backgroundStyleObject">
   <div class="overlay">
+    <div class="project-info">
+      <h1 class="project-name">{{project.name}}</h1>
+      <h2 class="fields">{{fieldsString}}</h2>
+    </div>
   </div>
 </div>
 </template>
@@ -26,6 +26,9 @@ export default {
   created () {
   },
   methods: {
+    clicked: function() {
+      this.$emit('clicked')
+    }
   }
 }
 </script>
@@ -56,7 +59,7 @@ export default {
 }
 
 .overlay {
-  transition: opacity .5s ease-in-out;
+  transition: opacity .4s ease-in-out;
   opacity: 0;
   background-color: #000;
   width: 100%;

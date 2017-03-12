@@ -1,12 +1,12 @@
 <template>
-<transition name="fade"
+<transition-group name="fade-group"
  mode="out-in"
  v-on:before-enter="beforeEnter"
  v-on:enter="enter"
  v-on:before-leave="beforeLeave"
  v-on:leave="leave">
   <slot></slot>
-</transition>
+</transition-group>
 </template>
 
 <script>
