@@ -29,7 +29,7 @@ export default {
   methods: {
     clicked: function(event) {
       const el = event.currentTarget
-      Velocity(el, { translateX: '-25vw', scale: 3.0 })
+      Velocity(el, { translateX: '-25vw', scale: 2.0 })
     }
   }
 }
