@@ -21,9 +21,8 @@
     <fade>
       <div v-show="modalActive" @click="closeModal" class="modal-mask">
         <div class="project-modal">
-          <div id="project-content">
-            proj
-          </div>
+          <img class="project-module" v-for="module in projectModules" v-bind:src="module.type == 'image' ? module.sizes['max_1920']: null ">
+            </img>
         </div>
       </div>
     </fade>
@@ -42,8 +41,11 @@ export default {
     return {
       projectsFirstHalf: [],
       projectsSecondHalf: [],
-      modalActive: false
+      modalActive: false,
+      projectModules: []
     }
+  },
+  computed: {
   },
   created () {
     this.fetchUserData()
@@ -61,7 +63,17 @@ export default {
           console.log(error)
         })
     },
-    openModal(event) {
+    openModal(projectId) {
+      this.$http.get('/projects/' + projectId)
+        .then(response => {
+          let project = response.data.project
+          this.projectModules = project.modules
+          console.log(this.projectModules[0].sizes)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
       this.modalActive = true
     },
     closeModal(event) {
@@ -89,18 +101,22 @@ export default {
 }
 
 .project-modal {
-  background-color: #def;
   opacity: 1;
-  height: 95vh;
-  width: 90vw;
+  max-height: 95vh;
+  max-width: 90vw;
   margin: 2.5vh auto;
   border-radius: 8px;
+  overflow: scroll;
 }
 
 #project-content {
   max-width: 100%;
-  background-color: blue;
-  overflow: scroll;
+  overflow: auto;
+}
+
+.project-module {
+  width: 100%;
+  border-radius: inherit;
 }
 
 

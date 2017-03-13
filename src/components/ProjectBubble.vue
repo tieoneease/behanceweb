@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     clicked: function() {
-      this.$emit('clicked')
+      this.$emit('clicked', this.project.id)
     }
   }
 }
