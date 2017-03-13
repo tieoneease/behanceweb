@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import Velocity from 'velocity-animate'
 export default {
   name: 'project-bubble',
   props: ['project'],
@@ -26,8 +27,9 @@ export default {
   created () {
   },
   methods: {
-    clicked: function() {
-      this.$emit('clicked')
+    clicked: function(event) {
+      const el = event.currentTarget
+      Velocity(el, { translateX: '-25vw', scale: 3.0 })
     }
   }
 }
