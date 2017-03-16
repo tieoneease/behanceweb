@@ -1,29 +1,23 @@
 <template>
   <div class="container">
-    <div class="left-panel">
-      <h1>Ashley Chen</h1>
-      <h2>UI / UX Designer </h2>
-    </div>
-    <div class="right-panel">
-      <scroll>
-        <div class="column">
-          <fade-group :duration="2000">
-          <project-bubble v-on:clicked="openModal" v-for="project in projectsFirstHalf" :project="project" :key="project.id"></project-bubble>
-          </fade-group>
-        </div>
-      </scroll>
-      <div class="column">
-        <fade-group :duration="1500" :delay="400">
-          <project-bubble v-on:clicked="openModal" v-for="project in projectsSecondHalf" :project="project" :key="project.id"></project-bubble>
-        </fade-group>
+    <navbar></navbar>
+    <div class="content-wrapper">
+      <div class="content">
+        <project v-on:clicked="openModal" v-for="project in projects" :project="project" :key="project.id">
+        </project>
       </div>
     </div>
     <fade>
       <div v-show="modalActive" @click="closeModal" class="modal-mask">
         <div class="project-modal">
-          <div id="project-content">
-            proj
+          <div class="project-leader">
+            <p class="project-header">{{activeProject.name}}</p>
           </div>
+          <div class="project-description">
+            <p class="project-text">{{activeProject.description}}</p>
+          </div>
+          <project-module v-for="module in projectModules" :project="module" :key="module.id">
+          </project-module>
         </div>
       </div>
     </fade>
@@ -35,14 +29,18 @@ import ProjectBubble from './ProjectBubble'
 import FadeGroup from './FadeGroup'
 import Fade from './Fade'
 import Scroll from './ScrollAnimation'
+import ProjectModule from './ProjectModule'
 import Velocity from 'velocity-animate'
+import Navbar from './Nav'
+
 export default {
   name: 'hello',
   data () {
     return {
-      projectsFirstHalf: [],
-      projectsSecondHalf: [],
-      modalActive: false
+      projects: [],
+      modalActive: false,
+      projectModules: [],
+      activeProject: {}
     }
   },
   created () {
@@ -51,17 +49,18 @@ export default {
   methods: {
     fetchUserData() {
       this.$http.get('/user')
+        .then(response => { this.projects = response.data.projects})
+        .catch(error => { console.log(error) })
+    },
+    openModal(projectId) {
+      this.$http.get('/projects/' + projectId)
         .then(response => {
-          let projects = response.data.projects
-          const halfLength = Math.ceil(projects.length / 2)
-          this.projectsFirstHalf = projects.splice(0,halfLength)
-          this.projectsSecondHalf = projects
+          this.activeProject = response.data.project
+          this.projectModules = this.activeProject.modules
         })
         .catch(error => {
           console.log(error)
         })
-    },
-    openModal(event) {
       this.modalActive = true
     },
     closeModal(event) {
@@ -70,16 +69,17 @@ export default {
     }
   },
   components: {
-    'project-bubble': ProjectBubble,
+    'project': ProjectBubble,
     'fade': Fade,
     'fade-group': FadeGroup,
-    'scroll': Scroll
+    'scroll': Scroll,
+    'project-module': ProjectModule,
+    'navbar': Navbar
   }
 }
 </script>
 
 <style>
-
 .modal-mask {
   position: absolute;
   height: 100vh;
@@ -89,24 +89,56 @@ export default {
 }
 
 .project-modal {
-  background-color: #def;
   opacity: 1;
-  height: 95vh;
-  width: 90vw;
+  max-height: 95vh;
+  max-width: 75vw;
   margin: 2.5vh auto;
   border-radius: 8px;
-}
-
-#project-content {
-  max-width: 100%;
-  background-color: blue;
   overflow: scroll;
+  transition: opacity 2s ease-in;
 }
 
+.project-header {
+  font-weight: 800;
+  font-size: 50px;
+  margin: 0;
+  padding-top: 2.5em;
+}
+
+.project-description {
+  background-color: white;
+  text-align: center;
+  width: 100%;
+}
+
+.project-leader {
+  background-color: white;
+  text-align: center;
+  width: 100%;
+}
+
+.project-text {
+  margin: 0 auto;
+  font-size: 34px;
+  padding: 2em;
+  max-width: 50%;
+  font-weight: 300;
+}
 
 body {
   margin: 0;
   font-family: 'Lato', sans-serif;
+}
+
+a {
+  font-size: 20px;
+  text-decoration:  none;
+  color: white;
+}
+
+a:active  {
+  text-decoration:  underline;
+  font-weight:      bold;
 }
 
 ::-webkit-scrollbar {
@@ -119,18 +151,27 @@ body {
   display: flex;
   position: relative;
   overflow: hidden;
-}
-
-.left-panel {
-  width: 50%;
+  flex-direction: column;
 }
 
 
-.right-panel {
-  width: 50%;
-  height: 100vh;
+.content-wrapper {
+  width: 100%;
+  height: 100%;
+  padding: 5em 0;
+  overflow: scroll;
+}
+
+
+.content {
+  margin: 0 auto;
+  width: 75vw;
   display: flex;
-  overflow: hidden;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.bubble-icon {
 }
 
 .column {
