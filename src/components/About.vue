@@ -95,8 +95,8 @@ export default {
 
 .blurbtext {
   margin-top: 0;
-  margin-bottom: 4em;
-  font-size: 24px;
+  margin-bottom: 1em;
+  font-size: 18px;
 }
 
 .info {
@@ -106,8 +106,7 @@ export default {
 }
 
 .info p {
-  font-size: 22px;
-  line-height: 32px;
+  font-size: 16px;
 }
 
 .contact {
