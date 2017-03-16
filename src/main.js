@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 
-let API_URL = 'http://localhost:5000'
+let API_URL = 'https://localhost:5000'
 
 let http = axios.create({ baseURL: API_URL })
 
