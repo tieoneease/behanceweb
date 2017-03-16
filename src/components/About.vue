@@ -53,7 +53,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+
+
 .resumelink {
   color: black;
   text-decoration: underline;
@@ -103,6 +105,7 @@ export default {
   margin-top: 0;
   margin-bottom: 1em;
   font-size: 18px;
+  box-sizing:border-box;
 }
 
 .info {

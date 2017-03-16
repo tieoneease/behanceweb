@@ -177,6 +177,7 @@ export default {
   font-size: 50px;
   margin: 0;
   padding-top: 2.5em;
+  box-sizing:border-box;
 }
 
 .project-description {
@@ -197,6 +198,7 @@ export default {
   padding: 2em;
   max-width: 50%;
   font-weight: 300;
+  box-sizing:border-box;
 }
 
 body {
@@ -204,11 +206,6 @@ body {
   font-family: 'Lato', sans-serif;
 }
 
-a {
-  font-size: 20px;
-  text-decoration:  none;
-  color: white;
-}
 
 
 ::-webkit-scrollbar {
@@ -229,6 +226,7 @@ a {
   height: 100%;
   padding: 5em 0;
   overflow: scroll;
+  box-sizing:border-box;
 }
 
 .content {
