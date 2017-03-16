@@ -7,7 +7,7 @@ var jsonfile = require('jsonfile')
 
 app = express();
 app.use(serveStatic(__dirname));
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 3001;
 
 //var fileURL = './data.json'
 //var cachedData = require('./data.json')
@@ -66,6 +66,6 @@ app.get('/projects/:projectId', function (req, res) {
     })
 })
 
-app.listen(80, function () {
-  console.log('Example app listening on port ' + 80)
+app.listen(3001, function () {
+  console.log('Example app listening on port ' + 3001)
 })
