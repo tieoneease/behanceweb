@@ -6,6 +6,9 @@
   "private": true,
   "scripts": {
     "postinstall": "npm install express"
-
+  },
+  "dependencies": {
+    "axios": "^0.15.3",
+    "jsonfile": "^2.4.0"
   }
 }
