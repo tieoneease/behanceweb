@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 
-let API_URL = 'https://localhost:' + process.ENV.PORT ? process.ENV.PORT : 3001
+let API_URL = 'https://localhost:' + process.env.PORT ? process.env.PORT : 3001
 
 let http = axios.create({ baseURL: API_URL })
 
