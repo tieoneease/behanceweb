@@ -3,11 +3,30 @@
     <navbar></navbar>
     <div class="wrapper">
       <div class="left-panel">
-        <div class="ash-image">
-        </div>
+        <img class="ash-image" src="../assets/picture.png"></img>
       </div>
       <div class="right-panel">
-        text
+        <div class="blurb">
+          <p class="blurbtext">
+          Hi, I’m Ashley Chen, but you can call me Ash. I’m a multi-disciplined designer who studies Industrial design and is graduating Rhode Island School of Design in 2017.</p>
+
+          <p class="blurbtext">As a designer, I enjoy user-centric problem solving and conceptual thinking. Along with the implementation of hands-on approaches to problem-solving to find a harmonious balance between functionality and aesthetics.
+          </p>
+        </div>
+
+        <div class="info">
+          <div class="contact">
+            <h1>Contact:</h1>
+            <p>Ashley Chen</p>
+            <p>Please feel free to e-mail me and say hi!</p>
+            <p>achen04@risd.edu</p>
+          </div>
+          <div class="more">
+            <h1>More Info:</h1>
+            <p>I specialize in both UI/UX front-end design, along with product design. </p>
+            <p>Previously, I have worked for companies such as Sharme Design and USAA as their front end research/ designer, along with organizations such as Partnership for Future Greater Providence. </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -51,20 +70,56 @@ export default {
 }
 
 .left-panel {
-  width: 50%;
-  background-color: #def;
+  width: 45%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .right-panel {
-  width: 50%;
-  background-color: #fdf;
+  height: 100%;
+  width: 55%;
 }
 
 .ash-image {
-  background-image: url("../assets/picture.png")
+  height: 30vw;
+}
+
+.blurb {
+  height: 55%;
+  width: 100%;
+  box-sizing: border-box;
+  padding-top: 10em;
+  padding-right: 6em;
+}
+
+.blurbtext {
+  margin-top: 0;
+  margin-bottom: 4em;
+  font-size: 24px;
+}
+
+.info {
+  height: 45%;
+  width: 100%;
+  display: flex;
+}
+
+.info p {
+  font-size: 22px;
+  line-height: 32px;
+}
+
+.contact {
+  height: 100%;
+  width: 50%;
+}
+
+.more {
+  height: 100%;
+  width: 50%;
+  padding-right: 6em;
+  box-sizing: border-box;
 }
 
 </style>

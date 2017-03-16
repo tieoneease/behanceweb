@@ -1,10 +1,20 @@
 <template>
   <div class="container">
+    <div v-if="!animated" class="animation-overlay">
+      <div class="title">
+        <h1>Ashley Chen</h1>
+        <h2>Maker | Designer</h2>
+      </div>
+      <div class="donut-string">
+        <div class="string">
+        </div>
+        <img id="donut" src="../assets/ass.svg">
+      </div>
+    </div>
     <navbar></navbar>
     <div class="content-wrapper">
       <div class="content">
-        <project v-on:clicked="openModal" v-for="project in projects" :project="project" :key="project.id">
-        </project>
+        <project v-on:clicked="openModal" v-for="project in projects" :project="project" :key="project.id"></project>
       </div>
     </div>
     <fade>
@@ -16,8 +26,7 @@
           <div class="project-description">
             <p class="project-text">{{activeProject.description}}</p>
           </div>
-          <project-module v-for="module in projectModules" :project="module" :key="module.id">
-          </project-module>
+          <project-module v-for="module in projectModules" :project="module" :key="module.id"></project-module>
         </div>
       </div>
     </fade>
@@ -30,21 +39,25 @@ import FadeGroup from './FadeGroup'
 import Fade from './Fade'
 import Scroll from './ScrollAnimation'
 import ProjectModule from './ProjectModule'
-import Velocity from 'velocity-animate'
 import Navbar from './Nav'
+import {TweenLite} from 'gsap'
 
 export default {
   name: 'hello',
+  props: ['animated'],
   data () {
     return {
       projects: [],
       modalActive: false,
       projectModules: [],
-      activeProject: {}
+      activeProject: {},
     }
   },
   created () {
     this.fetchUserData()
+  },
+  mounted () {
+    if (!this.animated) this.animate()
   },
   methods: {
     fetchUserData() {
@@ -66,6 +79,23 @@ export default {
     closeModal(event) {
       if (this.modalActive && event.target.className == "modal-mask")
         this.modalActive = false
+    },
+    animate() {
+      let donut = document.getElementById('donut')
+      let string = document.querySelector('.string')
+      let title = document.querySelector('.title')
+      let animationOverlay = document.querySelector('.animation-overlay')
+      let startingDelay = 1
+      TweenLite.to(donut, 2.4, { y: 525, delay: startingDelay, ease: Elastic.easeOut.config(1, 0.3) })
+      TweenLite.to(string, 2.4, { y: 525, delay: startingDelay, ease: Elastic.easeOut.config(1, 0.3) })
+      TweenLite.to(title, 5, { opacity: 1, delay: startingDelay + 1, ease: Elastic.easeOut.config(1, 0.3) })
+      TweenLite.to(donut, .9, { rotationZ: 22, delay: startingDelay + .5, ease: Back.easeOut})
+      TweenLite.to(donut, 1.2, { rotationZ: -10, delay: startingDelay + .6, ease: Back.easeOut.config(1.7)})
+      TweenLite.to(donut, 1.2, { rotationZ: 0, delay: startingDelay + .6, ease: Back.easeOut.config(1.7)})
+      TweenLite.to(donut, .5, { y: 2000 , delay: startingDelay + 2.3, ease: Sine.easeIn})
+      TweenLite.to(string, .5, { y: 2000 , delay: startingDelay + 2.3, ease: Sine.easeIn})
+      TweenLite.to(string, .5, { y: 2000 , delay: startingDelay + 2.3, ease: Sine.easeIn})
+      TweenLite.to(animationOverlay, .5, { y: 2000 , delay: startingDelay + 2.3, ease: Sine.easeIn})
     }
   },
   components: {
@@ -80,6 +110,50 @@ export default {
 </script>
 
 <style>
+.animation-overlay {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: white;
+  z-index: 9999;
+  display: flex;
+}
+
+.invisible {
+  display: none;
+}
+
+.title {
+  width: 30vw;
+  height: 12vh;
+  position: absolute;
+  left: 15vw;
+  top: 36vh;
+  text-align: center;
+  opacity: 0;
+}
+
+#donut {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  z-index: 10000;
+  margin: 0 auto;
+  transform: translateX(-100px);
+}
+
+.donut-string {
+  margin: 0 auto;
+  margin-top: -1200px;
+}
+
+.string {
+  margin: 0 auto;
+  border-left: medium black solid;
+  height: 1000px;
+  margin-bottom: -2px;
+}
+
 .modal-mask {
   position: absolute;
   height: 100vh;
@@ -136,10 +210,6 @@ a {
   color: white;
 }
 
-a:active  {
-  text-decoration:  underline;
-  font-weight:      bold;
-}
 
 ::-webkit-scrollbar {
   display: none;
@@ -154,7 +224,6 @@ a:active  {
   flex-direction: column;
 }
 
-
 .content-wrapper {
   width: 100%;
   height: 100%;
@@ -162,22 +231,11 @@ a:active  {
   overflow: scroll;
 }
 
-
 .content {
   margin: 0 auto;
   width: 75vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-}
-
-.bubble-icon {
-}
-
-.column {
-  height: 100%;
-  flex-grow: 1;
-  box-sizing: border-box;
-  overflow-y: scroll;
 }
 </style>

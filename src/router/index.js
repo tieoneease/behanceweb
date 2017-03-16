@@ -9,8 +9,9 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      name: 'works',
+      component: Hello,
+      props: (route) => ({ animated: route.query.animated })
     },
     {
       path: '/about',
