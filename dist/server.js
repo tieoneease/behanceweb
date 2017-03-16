@@ -58,6 +58,6 @@ app.get('/projects/:projectId', function (req, res) {
     })
 })
 
-app.listen(port, function () {
-  console.log('Example app listening on port ' + port)
+app.listen(8080, function () {
+  console.log('Example app listening on port ' + 8080)
 })
