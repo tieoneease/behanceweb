@@ -20,6 +20,7 @@
             <p>Ashley Chen</p>
             <p>Please feel free to e-mail me and say hi!</p>
             <p>achen04@risd.edu</p>
+            <p>My Resume can be found <a class="resumelink" href="static/AshResume.pdf" target="_blank">here</a></p>
           </div>
           <div class="more">
             <h1>More Info:</h1>
@@ -39,6 +40,7 @@ export default {
   name: 'about',
   data () {
     return {
+      pdfUrl: '../assets/resume.pdf'
     }
   },
   created () {
@@ -52,6 +54,10 @@ export default {
 </script>
 
 <style scoped>
+.resumelink {
+  color: black;
+  text-decoration: underline;
+}
 .container {
   width: 100vw;
   height: 100vh;
