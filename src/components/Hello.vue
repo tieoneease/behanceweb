@@ -1,29 +1,29 @@
 <template>
   <div class="container">
-    <div class="left-panel">
-      <h1>Ashley Chen</h1>
-      <h2>UI / UX Designer </h2>
-    </div>
-    <div class="right-panel">
-      <scroll>
-        <div class="column">
-          <fade-group :duration="2000">
-          <project-bubble v-on:clicked="openModal" v-for="project in projectsFirstHalf" :project="project" :key="project.id"></project-bubble>
-          </fade-group>
+    <div v-if="!animated" class="animation-overlay">
+      <div class="title">
+        <h1>Ashley Chen</h1>
+        <h2>Maker | Designer</h2>
+      </div>
+      <div class="donut-string">
+        <div class="string">
         </div>
-      </scroll>
-      <div class="column">
-        <fade-group :duration="1500" :delay="400">
-          <project-bubble v-on:clicked="openModal" v-for="project in projectsSecondHalf" :project="project" :key="project.id"></project-bubble>
-        </fade-group>
+        <img id="donut" src="../assets/ass.svg">
+      </div>
+    </div>
+    <navbar></navbar>
+    <div class="content-wrapper">
+      <div class="content">
+        <project v-on:clicked="openModal" v-for="project in projects" :project="project" :key="project.id"></project>
       </div>
     </div>
     <fade>
       <div v-show="modalActive" @click="closeModal" class="modal-mask">
         <div class="project-modal">
-          <div id="project-content">
-            proj
+          <div class="project-leader">
+            <p class="project-header">{{activeProject.name}}</p>
           </div>
+          <project-module v-for="module in projectModules" :project="module" :key="module.id"></project-module>
         </div>
       </div>
     </fade>
@@ -35,50 +35,124 @@ import ProjectBubble from './ProjectBubble'
 import FadeGroup from './FadeGroup'
 import Fade from './Fade'
 import Scroll from './ScrollAnimation'
-import Velocity from 'velocity-animate'
+import ProjectModule from './ProjectModule'
+import Navbar from './Nav'
+import {TweenLite} from 'gsap'
+
 export default {
   name: 'hello',
+  props: ['animated'],
   data () {
     return {
-      projectsFirstHalf: [],
-      projectsSecondHalf: [],
-      modalActive: false
+      projects: [],
+      modalActive: false,
+      projectModules: [],
+      activeProject: {},
+      projectModal: null
     }
   },
   created () {
     this.fetchUserData()
   },
+  mounted () {
+    if (!this.animated) this.animate()
+    this.projectModal = document.querySelector('.project-modal')
+  },
   methods: {
     fetchUserData() {
       this.$http.get('/user')
+        .then(response => { this.projects = response.data.projects})
+        .catch(error => { console.log(error) })
+    },
+    openModal(projectId) {
+      this.$http.get('/projects/' + projectId)
         .then(response => {
-          let projects = response.data.projects
-          const halfLength = Math.ceil(projects.length / 2)
-          this.projectsFirstHalf = projects.splice(0,halfLength)
-          this.projectsSecondHalf = projects
+          this.activeProject = response.data.project
+          this.projectModules = this.activeProject.modules
         })
         .catch(error => {
           console.log(error)
         })
-    },
-    openModal(event) {
       this.modalActive = true
     },
     closeModal(event) {
       if (this.modalActive && event.target.className == "modal-mask")
         this.modalActive = false
+      this.projectModal.scrollTop = 0
+    },
+    animate() {
+      let donut = document.getElementById('donut')
+      let string = document.querySelector('.string')
+      let title = document.querySelector('.title')
+      let animationOverlay = document.querySelector('.animation-overlay')
+      let startingDelay = 1
+      TweenLite.to(donut, 2.4, { y: 525, delay: startingDelay, ease: Elastic.easeOut.config(1, 0.3) })
+      TweenLite.to(string, 2.4, { y: 525, delay: startingDelay, ease: Elastic.easeOut.config(1, 0.3) })
+      TweenLite.to(title, 5, { opacity: 1, delay: startingDelay + 1, ease: Elastic.easeOut.config(1, 0.3) })
+      TweenLite.to(donut, .9, { rotationZ: 22, delay: startingDelay + .5, ease: Back.easeOut})
+      TweenLite.to(donut, 1.2, { rotationZ: -10, delay: startingDelay + .6, ease: Back.easeOut.config(1.7)})
+      TweenLite.to(donut, 1.2, { rotationZ: 0, delay: startingDelay + .6, ease: Back.easeOut.config(1.7)})
+      TweenLite.to(donut, .5, { y: 2000 , delay: startingDelay + 2.3, ease: Sine.easeIn})
+      TweenLite.to(string, .5, { y: 2000 , delay: startingDelay + 2.3, ease: Sine.easeIn})
+      TweenLite.to(string, .5, { y: 2000 , delay: startingDelay + 2.3, ease: Sine.easeIn})
+      TweenLite.to(animationOverlay, .5, { y: 2000 , delay: startingDelay + 2.3, ease: Sine.easeIn})
     }
   },
   components: {
-    'project-bubble': ProjectBubble,
+    'project': ProjectBubble,
     'fade': Fade,
     'fade-group': FadeGroup,
-    'scroll': Scroll
+    'scroll': Scroll,
+    'project-module': ProjectModule,
+    'navbar': Navbar
   }
 }
 </script>
 
 <style>
+.animation-overlay {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: white;
+  z-index: 9999;
+  display: flex;
+}
+
+.invisible {
+  display: none;
+}
+
+.title {
+  width: 30vw;
+  height: 12vh;
+  position: absolute;
+  left: 15vw;
+  top: 36vh;
+  text-align: center;
+  opacity: 0;
+}
+
+#donut {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  z-index: 10000;
+  margin: 0 auto;
+  transform: translateX(-100px);
+}
+
+.donut-string {
+  margin: 0 auto;
+  margin-top: -1200px;
+}
+
+.string {
+  margin: 0 auto;
+  border-left: medium black solid;
+  height: 1000px;
+  margin-bottom: -2px;
+}
 
 .modal-mask {
   position: absolute;
@@ -89,25 +163,50 @@ export default {
 }
 
 .project-modal {
-  background-color: #def;
   opacity: 1;
-  height: 95vh;
-  width: 90vw;
+  max-height: 95vh;
+  max-width: 75vw;
   margin: 2.5vh auto;
   border-radius: 8px;
-}
-
-#project-content {
-  max-width: 100%;
-  background-color: blue;
   overflow: scroll;
+  transition: opacity 2s ease-in;
 }
 
+.project-header {
+  font-weight: 800;
+  font-size: 50px;
+  margin: 0;
+  padding-top: 2.5em;
+  box-sizing:border-box;
+}
+
+.project-description {
+  background-color: white;
+  text-align: center;
+  width: 100%;
+}
+
+.project-leader {
+  background-color: white;
+  text-align: center;
+  width: 100%;
+}
+
+.project-text {
+  margin: 0 auto;
+  font-size: 34px;
+  padding: 2em;
+  max-width: 50%;
+  font-weight: 300;
+  box-sizing:border-box;
+}
 
 body {
   margin: 0;
   font-family: 'Lato', sans-serif;
 }
+
+
 
 ::-webkit-scrollbar {
   display: none;
@@ -119,24 +218,22 @@ body {
   display: flex;
   position: relative;
   overflow: hidden;
+  flex-direction: column;
 }
 
-.left-panel {
-  width: 50%;
-}
-
-
-.right-panel {
-  width: 50%;
-  height: 100vh;
-  display: flex;
-  overflow: hidden;
-}
-
-.column {
+.content-wrapper {
+  width: 100%;
   height: 100%;
-  flex-grow: 1;
-  box-sizing: border-box;
-  overflow-y: scroll;
+  padding: 5em 0;
+  overflow: scroll;
+  box-sizing:border-box;
+}
+
+.content {
+  margin: 0 auto;
+  width: 75vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>

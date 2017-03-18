@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import {TweenLite} from 'gsap'
 export default {
   name: 'project-bubble',
   props: ['project'],
@@ -26,8 +27,17 @@ export default {
   created () {
   },
   methods: {
-    clicked: function() {
-      this.$emit('clicked')
+    clicked: function(event) {
+      let el = event.currentTarget
+      this.$emit('clicked', this.project.id)
+      var boundingRect = el.getBoundingClientRect();
+      /*
+      TweenLite.to(el,1,
+        {
+          scale: 4,
+          zIndex: 9999
+        })
+      */
     }
   }
 }
@@ -36,18 +46,23 @@ export default {
 <style scoped>
 
 .bubble {
-  border-radius: 50%;
+  border-radius: 4px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
   width: 20vw;
-  height: 20vw;
+  height: 15vw;
   box-shadow: -2px 2px 12px 0px rgba(100,100,100,0.71);
-  margin: 20px 16px;
+  margin: 2.5em 2em;
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
-  z-index: 10
+  z-index: 10;
+  transition: transform .3s ease-in-out;
+}
+
+.bubble:hover {
+  transform: scale(1.1)
 }
 
 .bubble:hover .project-info {
@@ -59,7 +74,7 @@ export default {
 }
 
 .overlay {
-  transition: opacity .4s ease-in-out;
+  transition: opacity .3s ease-in-out;
   opacity: 0;
   background-color: #000;
   width: 100%;
@@ -71,7 +86,7 @@ export default {
 }
 
 .project-info {
-  transition: opacity .5s ease-in-out;
+  transition: opacity .3s ease-in-out;
   opacity: 0;
   width: 100%;
   height: 100%;
