@@ -23,9 +23,6 @@
           <div class="project-leader">
             <p class="project-header">{{activeProject.name}}</p>
           </div>
-          <div class="project-description">
-            <p class="project-text">{{activeProject.description}}</p>
-          </div>
           <project-module v-for="module in projectModules" :project="module" :key="module.id"></project-module>
         </div>
       </div>
@@ -51,6 +48,7 @@ export default {
       modalActive: false,
       projectModules: [],
       activeProject: {},
+      projectModal: null
     }
   },
   created () {
@@ -58,6 +56,7 @@ export default {
   },
   mounted () {
     if (!this.animated) this.animate()
+    this.projectModal = document.querySelector('.project-modal')
   },
   methods: {
     fetchUserData() {
@@ -79,6 +78,7 @@ export default {
     closeModal(event) {
       if (this.modalActive && event.target.className == "modal-mask")
         this.modalActive = false
+      this.projectModal.scrollTop = 0
     },
     animate() {
       let donut = document.getElementById('donut')
